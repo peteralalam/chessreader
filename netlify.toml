@@ -4,6 +4,10 @@
 
 [build.environment]
   NODE_VERSION = "20"
+  # Allowlist the GA key for Netlify's secret scanner so builds that inline
+  # the non-sensitive GA Measurement ID don't fail. This key contains a
+  # public analytics identifier, not a private credential.
+  SECRETS_SCAN_OMIT_KEYS = "VITE_GA_MEASUREMENT_ID"
 
 [[redirects]]
   from = "/*"
