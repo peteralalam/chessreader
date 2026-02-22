@@ -1,0 +1,248 @@
+:root {
+  font-family: Inter, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+  color: #dfe8ff;
+  background: #040a1e;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background: radial-gradient(circle at top left, #12255e 0%, #06123a 36%, #030a22 100%);
+}
+
+#root {
+  width: 100%;
+}
+
+.app-shell {
+  max-width: none;
+  margin: 0;
+  padding: 0.45rem 1.1rem 1rem 0.2rem;
+}
+
+.app-header {
+  margin-bottom: 0.55rem;
+  padding-left: 0.7rem;
+}
+
+.subtext {
+  margin-top: 0.22rem;
+  color: #a8badf;
+  font-size: 0.84rem;
+}
+
+.eyebrow {
+  margin: 0;
+  color: #8ea8df;
+  text-transform: uppercase;
+  font-size: 0.68rem;
+  letter-spacing: 0.1rem;
+}
+
+h1,
+h2,
+p {
+  margin: 0;
+}
+
+h1 {
+  font-size: clamp(1.15rem, 1.9vw, 1.6rem);
+  color: #e6efff;
+}
+
+h2 {
+  font-size: 0.95rem;
+  color: #c7d8ff;
+}
+
+.layout {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.pdf-panel {
+  width: min(1260px, 71.2vw);
+  margin-right: auto;
+}
+
+.card {
+  background: linear-gradient(180deg, rgba(5, 18, 62, 0.96), rgba(4, 15, 52, 0.93));
+  border: 1px solid rgba(65, 98, 184, 0.58);
+  border-radius: 14px;
+  padding: 0.9rem;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.26);
+}
+
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.upload-btn,
+button {
+  background: linear-gradient(180deg, #5b82ff, #4562d0);
+  color: #f4f7ff;
+  border: 0;
+  border-radius: 9px;
+  padding: 0.46rem 0.75rem;
+  font: inherit;
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: transform 0.12s ease, filter 0.12s ease;
+}
+
+button:hover,
+.upload-btn:hover {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
+}
+
+button:disabled {
+  cursor: not-allowed;
+  transform: none;
+  opacity: 0.55;
+}
+
+.hidden-input {
+  display: none;
+}
+
+.file-name {
+  margin-top: 0.42rem;
+  color: #8aa6e6;
+  font-size: 0.81rem;
+}
+
+.controls-row {
+  margin-top: 0.72rem;
+  display: flex;
+  gap: 0.36rem;
+  align-items: center;
+  flex-wrap: nowrap;
+  color: #dbe4ff;
+  font-size: 0.88rem;
+}
+
+.bottom-controls {
+  margin-top: 0.86rem;
+  background: rgba(3, 10, 35, 0.72);
+  border: 1px solid rgba(61, 93, 179, 0.58);
+  border-radius: 10px;
+  padding: 0.42rem 0.48rem;
+  width: fit-content;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.page-input {
+  width: 70px;
+  border-radius: 8px;
+  border: 1px solid rgba(82, 109, 181, 0.64);
+  background: rgba(5, 16, 50, 0.98);
+  color: #e7efff;
+  padding: 0.37rem 0.46rem;
+  font: inherit;
+}
+
+.page-status,
+.zoom-status {
+  color: #d6e3ff;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.page-input:disabled {
+  opacity: 0.55;
+}
+
+.pdf-canvas-wrap {
+  margin-top: 0.72rem;
+  border-radius: 11px;
+  background: #020b2c;
+  min-height: 72vh;
+  max-height: 84vh;
+  overflow: auto;
+  border: 1px solid rgba(54, 83, 163, 0.55);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 0.72rem 0.72rem 0;
+  position: relative;
+}
+
+.pdf-canvas {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border-radius: 7px;
+}
+
+.pdf-page {
+  position: relative;
+  width: fit-content;
+  line-height: 0;
+}
+
+.text-layer {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  cursor: text;
+  pointer-events: none;
+}
+
+.text-layer :is(span, br) {
+  pointer-events: auto;
+}
+
+.overlay-message {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #bfd2ff;
+  text-align: center;
+}
+
+.error-message {
+  margin-top: 0.65rem;
+  color: #f4a8a8;
+  font-size: 0.86rem;
+}
+@media (max-width: 1040px) {
+  .pdf-panel {
+    width: 100%;
+  }
+
+  .app-shell {
+    padding: 0.7rem 0.7rem 0.8rem;
+  }
+
+  .app-header {
+    padding-left: 0.2rem;
+  }
+
+  .controls-row {
+    flex-wrap: wrap;
+  }
+
+  .bottom-controls {
+    width: 100%;
+  }
+
+  .pdf-canvas-wrap {
+    min-height: 360px;
+    max-height: 78vh;
+  }
+}
