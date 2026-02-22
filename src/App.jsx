@@ -7,6 +7,20 @@ GlobalWorkerOptions.workerSrc = pdfWorker;
 
 function App()
 {
+  const sendGtagEvent = (action, params = {}) =>
+  {
+    try
+    {
+      if (typeof window !== 'undefined' && window.gtag)
+      {
+        window.gtag('event', action, params);
+      }
+    } catch (e)
+    {
+      // ignore
+    }
+  };
+
   const canvasRef = useRef(null);
   const textLayerRef = useRef(null);
   const renderTaskRef = useRef(null);
@@ -205,14 +219,14 @@ function App()
           </div>
 
           <div className="controls-row bottom-controls">
-            <button onClick={() => setPageNumber((page) => Math.max(1, page - 1))} disabled={!pdfDoc || pageNumber <= 1}>
+            <button onClick={() => { setPageNumber((page) => Math.max(1, page - 1)); sendGtagEvent('page_prev', { page: pageNumber - 1 }); }} disabled={!pdfDoc || pageNumber <= 1}>
               Prev
             </button>
             <span className="page-status">
               Page {pageNumber} / {totalPages || 0}
             </span>
             <button
-              onClick={() => setPageNumber((page) => Math.min(totalPages, page + 1))}
+              onClick={() => { setPageNumber((page) => Math.min(totalPages, page + 1)); sendGtagEvent('page_next', { page: pageNumber + 1 }); }}
               disabled={!pdfDoc || pageNumber >= totalPages}
             >
               Next
@@ -234,12 +248,12 @@ function App()
               placeholder="Page #"
               disabled={!pdfDoc}
             />
-            <button onClick={goToPage} disabled={!pdfDoc}>Go</button>
-            <button onClick={() => setZoom((current) => Math.max(0.7, current - 0.1))} disabled={!pdfDoc}>
+            <button onClick={() => { goToPage(); sendGtagEvent('go_to_page', { page: jumpPage }); }} disabled={!pdfDoc}>Go</button>
+            <button onClick={() => { setZoom((current) => { const v = Math.max(0.7, current - 0.1); sendGtagEvent('zoom_change', { zoom: v }); return v; }); }} disabled={!pdfDoc}>
               -
             </button>
             <span className="zoom-status">{Math.round(zoom * 100)}%</span>
-            <button onClick={() => setZoom((current) => Math.min(2.4, current + 0.1))} disabled={!pdfDoc}>
+            <button onClick={() => { setZoom((current) => { const v = Math.min(2.4, current + 0.1); sendGtagEvent('zoom_change', { zoom: v }); return v; }); }} disabled={!pdfDoc}>
               +
             </button>
           </div>
