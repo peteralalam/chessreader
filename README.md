@@ -14,3 +14,17 @@ The React Compiler is not enabled on this template because of its impact on dev 
 ## Expanding the ESLint configuration
 
 If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+
+## Environment variables
+
+For local development, create a `.env` file in the project root (do not commit it).
+Copy the example provided:
+
+```bash
+cp .env.example .env
+# edit .env and set VITE_GA_MEASUREMENT_ID=G-XXXXXXXXXX
+```
+
+Vite only exposes env variables that start with `VITE_` to client-side code. To enable Google Analytics (GA4), set `VITE_GA_MEASUREMENT_ID` to your measurement id.
+
+For Netlify production, add the same environment variable in the site settings: `Site settings → Build & deploy → Environment → Environment variables` and trigger a new deploy.
