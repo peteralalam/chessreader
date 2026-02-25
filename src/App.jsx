@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { GlobalWorkerOptions, TextLayer, getDocument } from 'pdfjs-dist';
 import pdfWorker from 'pdfjs-dist/build/pdf.worker.min.mjs?url';
 import 'pdfjs-dist/web/pdf_viewer.css';
+import { saveSession, loadSession } from './db';
 
 GlobalWorkerOptions.workerSrc = pdfWorker;
 
@@ -135,6 +136,15 @@ function App()
     };
   }, [pdfDoc, pageNumber, zoom]);
 
+  // Persist page number whenever it changes
+  useEffect(() =>
+  {
+    if (pdfDoc && pdfName && pageNumber)
+    {
+      saveSession(pdfName, pageNumber).catch(() => { });
+    }
+  }, [pdfDoc, pdfName, pageNumber]);
+
   const handlePdfUpload = async (event) =>
   {
     const file = event.target.files?.[0];
@@ -144,16 +154,19 @@ function App()
     }
 
     setPdfError('');
-    setPdfName(file.name);
 
     try
     {
       const buffer = await file.arrayBuffer();
       const loadedPdf = await getDocument({ data: buffer }).promise;
+      const session = await loadSession(file.name);
+      const savedPage = session ? session.pageNumber : 1;
+      const startPage = Math.min(Math.max(1, savedPage), loadedPdf.numPages);
       setPdfDoc(loadedPdf);
+      setPdfName(file.name);
       setTotalPages(loadedPdf.numPages);
-      setPageNumber(1);
-      setJumpPage('1');
+      setPageNumber(startPage);
+      setJumpPage(String(startPage));
     } catch
     {
       setPdfDoc(null);
